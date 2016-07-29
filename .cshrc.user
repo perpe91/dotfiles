@@ -1,0 +1,154 @@
+if ( $tcsh =~ "6.15.00" ) then
+endif
+
+setenv PATH "/usr/atria/bin:${PATH}:${HOME}/script"
+setenv PATH "/home/eperpei/apps/bin:$PATH"
+setenv LD_LIBRARY_PATH "/home/eperpei/apps/lib:$LD_LIBRARY_PATH"
+#setenv DISPLAY localhost:10.0
+set LANG=en_US.UTF-8
+
+setenv NOQFL
+
+
+
+#############
+## Aliases ##
+#############
+
+#
+# ClearCase aliases
+#
+alias ct         'cleartool'
+alias ctv        'ct lsvtree -g'
+alias ctd        'ct diff -predecessor'
+alias cv2        'tmake clean; ct lspriv -other | xargs rm -rf'
+alias views      'ct lsview | grep ${USER}'
+alias ci         'ct checkin -nc'
+alias co         'ct checkout -nc'
+alias uco        'ct unco'
+alias lsbranches 'ct lstype -kind brtype | grep ${USER}'
+alias lslabels   'ct lstype -kind lbtype | grep ${USER}'
+alias llsco      'ct lsco -all -me -long'
+alias lsco       'ct lsco -all -me -short -cview | sort | uniq'
+alias ciall      'lsco | xargs cleartool ci -nc'
+alias myfindmerge  'cleartool findmerge . -fve .../\!:1/\!:2 -bla -nc -merge -gmerge'
+alias mycommitmerge  'cleartool lsco -me -cview -short -r . | xargs -I % echo "$PWD/%" | sed "s/\.\///g" | sort -r | xargs cleartool ci -nc'
+alias cleanttcnbuild 'rm -rf /local/tmp/${USER}/TADE* /local/tmp/${USER}/unpacked*'
+alias ccleanrpm    'cd `cleartool pwv -root`/vobs/tas ; rm -rf `find . -name rpm.x86_64-linux`'
+alias mydiff '/home/eattgec/diffs/myDiff.py -s'
+alias mycheck "module add cppcheck ; cleartool lsco -all -me -short -cview | sort | uniq | xargs cppcheck --enable=style,performance,portability,information --std=posix --std=c99 -q"
+alias stb        'set_ttcn_build'
+alias sv         'source /home/eperpei/script/sv'
+alias wg         'wpct getinfo'
+alias ctsv       'setenv KATE_CTAGS_FILE /home/${USER}/work/tags/\!:1/mtas.tags && ct setview \!:1'
+alias ttcnsetup            'cd /vobs/ims_ttcn3/projects/TAS/imsas_ttcn; source setup'
+alias ctas 'cd `cleartool pwv -root`/vobs/tas'
+alias csrc 'cd `cleartool pwv -root`/vobs/tas/tas_code/imsas/src'
+alias cmfw 'cd `cleartool pwv -root`/vobs/tas/mtas_code/MediaFW/src/'
+alias cdesignsetup        'cd `cleartool pwv -root`/vobs/tas/tas_code/imsas/src; source setup'
+alias ttcn 'cd /vobs/ims_ttcn3/projects/TAS/imsas_ttcn'
+alias ttcnbin 'cd /vobs/ims_ttcn3/common/bin'
+
+#
+# Git aliases
+#
+alias cdgit 'cd /local/scratch/eperpei/mtas_new/mtas_design/'
+alias tas 'cd `git rev-parse --show-toplevel`/tas'
+alias src 'cd `git rev-parse --show-toplevel`/tas/tas_code/imsas/src'
+alias mfw 'cd `git rev-parse --show-toplevel`/tas/mtas_code/MediaFW/src/'
+alias designsetup 'cd `git rev-parse --show-toplevel`/tas/tas_code/imsas/src; source setup_git.csh'
+alias cbadesignsetup 'cd `git rev-parse --show-toplevel`/tas/tas_code/imsas/src; source cba_env_setup_git.csh'
+
+#
+# Other aliases
+#
+alias n          'notify-send -t 0'
+#alias vim        '/app/vim/7.3.021/LMWP3/bin/vim'
+alias vifm        'vifm .'
+alias vi         'vim'
+alias f          'find -iname'
+alias qtide     '~/qtide/qt-creator/qtide.sh'
+alias grep      'grep --color'
+alias errcolor    'grep --color -i "error:\|"'
+alias ls         'ls --color=auto -1'
+alias jx         '/home/ectasadm/opt/ldapbrowser/jxplorer/JXplorer &'
+alias myws       '~/local/bin/wireshark *cap &'
+alias appws      '/app/wireshark/1.8.6/LMWP3/bin/wireshark *cap &'
+alias lb         'logbrowser mtas.*.log mtc*.log &'
+alias ff         "firefox"
+alias sa         'screen -x'
+alias ta         'tmux attach -d'
+alias myepide    'epide -vmargs -Xms1024m -Xmx2048m -XX:MaxPermSize=1024m &'
+alias pretigerbuild        'rm -rf /local/tmp/{$USER}/TADE* /local/tmp/{$USER}/unpacked_mtas_build/; ps -ef | grep ${USER} | grep vmware | grep Workstation | cut -f 3,4 -d " " | tr "\n" " " | xargs kill -9'
+alias callflow_grep        '/home/ebarcsk/work/scripts/trace/callflow_grep/callflow_grep.pl'
+alias find_first_failure   '/home/ebarcsk/work/scripts/trace/find_first_failure/find_first_failure'
+alias find_failing_tcs     '/home/ebarcsk/work/scripts/trace/find_failing_tcs/find_failing_tcs'
+alias ut '/home/ebarcsk/work/scripts/untar.sh'
+alias utws '/home/ebarcsk/work/scripts/utws.sh'
+alias mydush '/home/ebarcsk/work/scripts/mydush.sh'
+alias mytigershit 'rm -rf /home/{$USER}/.tiger /home/{$USER}/config'
+alias mylsv      '/home/ebarcsk/Barniel/MyBin/mylsview'
+alias plg '/home/ebarcsk/Barniel/MyBin/procloggrep'
+alias r 'echo "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"'
+alias loc 'locate -d locateDB'
+alias fc 'vim /local/tmp/command && chmod 777 /local/tmp/command && source /local/tmp/command && rm -f /local/tmp/command'
+alias ssh 'set term=xterm; /usr/bin/ssh'
+alias ftags "find -L . -name '*.ttcn' > ttcn_tags ; ctags --ttcn-kinds=+p --format=2 --extra=+q --extra=+f -L ttcn_tags"
+
+bindkey "^R" i-search-back
+#bindkey -v
+
+
+#source ~/.cshrc.kate #KatePluginPack_ver_2.1 (DO NOT REMOVE ME!)
+
+#true color test
+alias truecolor_test "curl -s https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-bit-color.sh | bash"
+
+# Colors!
+set	underlined="%{\033[1;4m%}"
+set	  blinking="%{\033[1;5m%}"
+set     red="%{\033[0;31m%}"
+set   green="%{\033[0;32m%}"
+set  yellow="%{\033[0;33m%}"
+set    blue="%{\033[0;34m%}"
+set magenta="%{\033[0;35m%}"
+set    cyan="%{\033[0;36m%}"
+set   white="%{\033[0;37m%}"
+set     end="%{\033[0m%}" # This is needed at the end... :(
+set randomc="%{\033[0;`head -c 1 /dev/urandom | od -t u1 | cut -c9- | xargs -I'{}' expr {} % 7 + 31`m%}"
+set   ctest="%{\033[1;34m%}"
+
+# Setting the actual prompt.  I made two separate versions for you to try, pick
+# whichever one you like better, and change the colors as you want.  Just don't
+# mess with the ${end} guy in either line...  Comment out or delete the prompt you don't use.
+
+
+##########
+## GIT  ##
+##########
+#set tcsh=6.18.01
+source $HOME/.git-completion.tcsh
+set gitstatuscolor="${ctest}"
+alias __git_current_branch 'git rev-parse --abbrev-ref HEAD >& /dev/null && echo "${gitstatuscolor}[${end}`git rev-parse --abbrev-ref HEAD`${gitstatuscolor}]"'
+#alias __tailmsg 'git status >& /dev/null | tail -n1'
+#alias __gitstatuscheck  '$HOME/script/gitstatuscheck | grep DIRTY | wc -l'
+
+
+
+#
+# Change the prompt to show your actual view
+#
+
+if ( $?FT_HOME ) then
+   echo
+else
+#if ( `__tailmsg` == "nothing to commit, working directory clean" ) then; set gitstatuscolor="${green}"; else; set gitstatuscolor="${red}"; endif;
+   alias precmd 'set prompt = "\n${randomc}%C2${end} `__git_current_branch`${end} "'
+
+   if ( $?prompt ) then
+     if ( $?CLEARCASE_ROOT ) then
+       set prompt = "\n[${underlined}`basename $CLEARCASE_ROOT`${end}] $prompt"
+     endif
+   endif
+endif
+

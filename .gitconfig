@@ -1,0 +1,26 @@
+[user]
+	name = Peter Peresztegi
+[core]
+	pager = less -r
+	editor = vim
+	excludesfile = /home/eperpei/.gitignore_global
+[color]
+	grep = auto
+[diff]
+	mnemonicprefix = true
+	tool = vimdiff
+[merge]
+	stat = true
+[alias]
+	s = status -s
+      edit = !vim $(git status --short | awk '$1 ~ /^M|A|U/ {print $2}' )
+	lga = log --graph --oneline --all --decorate
+	lg = log --graph --decorate
+	su = submodule update
+	dt = difftool --trust-exit-code
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	required = true
+[credential "https://arm.rnd.ki.sw.ericsson.se"]
+      helper = store
