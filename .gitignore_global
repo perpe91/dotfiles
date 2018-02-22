@@ -1,4 +1,3 @@
-cscope.in.out
-cscope.out
-cscope.po.out
-tags
+*cscope*
+*tags
+*ttcn_tags

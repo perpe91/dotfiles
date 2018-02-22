@@ -55,7 +55,7 @@ set confirm
 set path+=**
 set complete-=i
 set wildignorecase
-set selection=inclusive
+set selection=exclusive
 set sidescroll=10
 set timeoutlen=1000
 set cscopetag
@@ -64,6 +64,7 @@ set cscopequickfix=c-,f-,d-,s-,i-
 set nobackup                      " No backups.
 set nowritebackup                 " No backups.
 set noswapfile                    " No swap files; more hassle than they're worth.
+set iskeyword-=:
 "set nocst
 "set undofile
 
@@ -91,11 +92,10 @@ nmap <F4> :chdir tas/mtas_code/MediaFW/src/<CR>
 set pastetoggle=<F5>
 nmap <F7> <Leader>ig<CR>
 nmap <F8> :!ct co -nc %<CR><CR>
-nmap <F11> :colorscheme diff<CR>
 nmap <F12> :silent !clear<CR>:silent !g++ -Wall %<CR>:!./a.out<CR>
 
 nnoremap <c-p> :CtrlPRoot<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
+"nnoremap <Leader>b :CtrlPBuffer<CR>
 " Buffer switching
 nnoremap <Leader>f :b! #<CR>
 nnoremap <Leader>w :w<CR>
@@ -110,14 +110,18 @@ nnoremap <Leader>[ :tp<CR>
 nnoremap <Leader>] :tn<CR>
 "nnoremap <Leader>e :e *|
 "nnoremap <Leader>e :vsp<CR><C-w><C-w>:Ex<CR>:vert resize 40<CR>
-nnoremap <Leader>g :set grepprg=git\ grep\ -n<CR>:grep! -i 
-nnoremap <Leader>G :set grepprg=grep\ -n<CR>:grep! -ir --include=*.{h,hh,c,cc} "" *<Left><Left><Left>
-nnoremap <Leader>GG :set grepprg=grep\ -n<CR>:grep! -ir "" *<Left><Left><Left>
+"nnoremap <Leader>g :set grepprg=git\ grep\ -n<CR>:grep! -i ""<Left>
+"nnoremap <Leader>g :Ggrep -i
+"nnoremap <Leader>G :set grepprg=grep\ -n<CR>:grep! -ir --include=*.{h,hh,c,cc} "" *<Left><Left><Left>
+"nnoremap <Leader>GG :set grepprg=grep\ -n<CR>:grep! -ir "" *<Left><Left><Left>
+nnoremap <Leader>g :GrepperGit -i ''<Left>
+nnoremap <Leader>G :GrepperGrep -i --include=*.{h,hh,c,cc}
 nnoremap <Leader>c :copen<CR>
 nnoremap <Leader>C :cclose<CR>
-nnoremap <Leader>s :colorscheme solarized<CR>
 nnoremap <Leader>l :g/^\s*/#<Left><Left>
 vnoremap <Leader>F :!clang-format -style=file
+nnoremap <Leader>e /\<<C-r><C-w>\>\s*\_\s*=[^=]<CR>
+nnoremap <Leader>E :set grepprg=git\ grep\ -n<CR>:grep! "<C-r><C-w>\s*="<CR>
 
 inoremap jk <esc>
 
@@ -125,7 +129,7 @@ map <ScrollWheelUp>   3<C-Y>
 map <ScrollWheelDown> 3<C-E>
 
 "nnoremap <Tab> :wincmd w<CR>
-nnoremap <C-]> :tj <C-r><C-w><CR>
+"nnoremap <C-]> :tj <C-r><C-w><CR>
 nnoremap <C-W>] :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 set wildignore+=*tmp*,*.so,*.swp,*.zip,*obj.x86_64-dicos*,*BuildInfo,*.epct,*delosInfo*,*skeleton*,*.dicos,*.keep,*.backup,*.o,*.d,*.opts,*.a,*.contrib,*.cmd
@@ -154,8 +158,8 @@ nnoremap <Leader>8 :call SwitchBuf(8) <CR><C-[>
 nnoremap <Leader>9 :call SwitchBuf(9) <CR><C-[>
 nnoremap <Leader>0 :call SwitchBuf(10) <CR><C-[>
 
-inoremap [ []<Left>
-inoremap ( ()<Left>
+"inoremap [ []<Left>
+"inoremap ( ()<Left>
 
 
 " -----------------------------------------------------------
@@ -206,7 +210,8 @@ if $TERM != "xterm"
    let &t_EI.="\e[1 q"
    let &t_te.="\e[0 q"
 endif
-"let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 augroup quickfix
     autocmd!
@@ -226,6 +231,21 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " | NETRW                                                   |
 " -----------------------------------------------------------
 " These are buggy as f...
-"let g:netrw_banner            = 0
-"let g:netrw_browse_split      = 0
-"let g:netrw_liststyle=3
+let g:netrw_banner            = 0
+let g:netrw_browse_split      = 0
+let g:netrw_liststyle=3
+
+
+"set tabline=%#TabLineSel#
+"set tabline+=%t
+
+"set tabline+=%#TabLineFill#%T
+"
+" VXML
+" :s#\\"#"#g
+" hxx$dawx/with
+" dawhhxxxD:vsp
+" :enew
+" P:.!xmllint --format -:.!xmllint --format -
+" :diffthis:diffthis
+"

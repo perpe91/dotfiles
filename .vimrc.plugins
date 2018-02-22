@@ -1,6 +1,16 @@
 
 execute pathogen#infect()
+"set packpath+=${HOME}/.vim/bundle
 
+if exists('$TMUX')
+   set term=screen-256color
+   if &term =~# '^screen'
+      let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+      let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+   endif
+endif
+set termguicolors
+"set t_Co=256
 """"" PLUGINS """""""""""""""""""""""""""""""""
 "filetype off
 filetype plugin on
@@ -18,8 +28,6 @@ colorscheme gruvbox
 "let g:lucius_style='light'
 "colorscheme lucius
 
-"set termguicolors
-set t_Co=256
 
 "hi DiffAdd ctermbg=none ctermfg=4
 
@@ -38,8 +46,8 @@ let g:airline#extensions#tabline#fnametruncate = 0
 let g:airline_section_b = ''
 "let g:airline_section_c = '[ VIM Editor ] - %t'
 let g:airline_section_c = '  %t '
-let g:airline_section_y = '%r%m'
-"let g:airline_section_z = '%{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#   %3p%% '
+let g:airline_section_y = '%r%m  %c'
+let g:airline_section_z = '%3p%% '
 "let g:airline_section_z = '%4l%'
 "let g:airline_theme="jellybeans"
 let g:airline_theme="lucius"
@@ -64,7 +72,7 @@ let g:airline#extensions#quickfix#location_text = ''
 """""""""""""""""""""""""""""""" STATUS LINE SETUP END """""
 let g:rainbow_active = 1
 let g:rainbow_conf = {
-    \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+    \   'guifgs': ['darkorange1', 'seagreen2', '#44AAFF', 'darkorange3'],
     \   'ctermfgs': ['none', '1', '3', 'lightmagenta'],
     \   'operators': '_,_',
     \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
@@ -75,10 +83,6 @@ let g:rainbow_conf = {
     \       },
     \   }
     \}
-"au VimEnter * RainbowParenthesesActivate
-"au BufWinEnter * RainbowParenthesesToggle
-"au BufWinEnter * RainbowParenthesesToggle
-"au BufWinEnter * RainbowParenthesesLoadRound
 set updatetime=500
 "au CursorMoved * exe printf('match Conceal /\V\<%s\>/', escape(expand('<cword>'), '/\'))
 "au CursorMoved * exe printf('match WildMenu /\V\<%s\>/', escape(expand('<cword>'), '/\'))
@@ -109,8 +113,15 @@ let g:ctrlp_by_filename = 1
 "let g:gitgutter_eager=0
 
 augroup filetypedetect
-    au BufNewFile,BufRead *.ttcn  setf ttcn
+    au BufNewFile,BufRead *.ttcn  setf ttcn | set tabstop=2 | set shiftwidth=2
+    au BufNewFile,BufRead *.cc,*.hh,*.c,*.h  setf cpp | set tabstop=3 | set shiftwidth=3
 augroup END
+
+if &diff
+   set background=light
+   colorscheme lucius
+   "colorscheme monokai
+endif
 
 "au BufNewFile,BufRead,BufEnter *.cpp,*.cc,*.hh,*.hpp set omnifunc=omni#cpp#complete#Main
 " OmniCppComplete
@@ -125,3 +136,10 @@ augroup END
 "" automatically open and close the popup menu / preview window
 "au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 "set completeopt=menuone,menu,longest,preview
+let g:neomake_cpp_tmake_maker = {
+    \ 'exe': 'tmake',
+    \ 'args': ['build SA/MediaFW'],
+    \ 'errorformat': '%f:%l:%c: error: %m,%f:%l: error: %m',
+    \ }
+let g:neomake_cpp_enabled_makers = ['tmake']
+let g:Gitv_OpenHorizontal = 1

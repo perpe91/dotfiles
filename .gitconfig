@@ -1,11 +1,21 @@
 [user]
 	name = Peter Peresztegi
+	email = peter.peresztegi@ericsson.com
 [core]
 	pager = less -r
 	editor = vim
 	excludesfile = /home/eperpei/.gitignore_global
 [color]
 	grep = auto
+[color "status"]
+      added = green
+      changed = red bold
+      untracked = magenta bold
+[color "branch"]
+      remote = yellow
+[color "diff"]
+      old = red bold
+      new = green bold
 [diff]
 	mnemonicprefix = true
 	tool = vimdiff
@@ -16,8 +26,9 @@
       edit = !vim $(git status --short | awk '$1 ~ /^M|A|U/ {print $2}' )
 	lga = log --graph --oneline --all --decorate
 	lg = log --graph --decorate
-	su = submodule update
+	su = submodule update --init --recursive
 	dt = difftool --trust-exit-code
+	pd = pull --rebase origin develop
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

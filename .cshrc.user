@@ -9,8 +9,6 @@ set LANG=en_US.UTF-8
 
 setenv NOQFL
 
-
-
 #############
 ## Aliases ##
 #############
@@ -19,33 +17,22 @@ setenv NOQFL
 # ClearCase aliases
 #
 alias ct         'cleartool'
-alias ctv        'ct lsvtree -g'
 alias ctd        'ct diff -predecessor'
-alias cv2        'tmake clean; ct lspriv -other | xargs rm -rf'
-alias views      'ct lsview | grep ${USER}'
 alias ci         'ct checkin -nc'
 alias co         'ct checkout -nc'
 alias uco        'ct unco'
-alias lsbranches 'ct lstype -kind brtype | grep ${USER}'
-alias lslabels   'ct lstype -kind lbtype | grep ${USER}'
-alias llsco      'ct lsco -all -me -long'
 alias lsco       'ct lsco -all -me -short -cview | sort | uniq'
 alias ciall      'lsco | xargs cleartool ci -nc'
-alias myfindmerge  'cleartool findmerge . -fve .../\!:1/\!:2 -bla -nc -merge -gmerge'
-alias mycommitmerge  'cleartool lsco -me -cview -short -r . | xargs -I % echo "$PWD/%" | sed "s/\.\///g" | sort -r | xargs cleartool ci -nc'
-alias cleanttcnbuild 'rm -rf /local/tmp/${USER}/TADE* /local/tmp/${USER}/unpacked*'
 alias ccleanrpm    'cd `cleartool pwv -root`/vobs/tas ; rm -rf `find . -name rpm.x86_64-linux`'
 alias mydiff '/home/eattgec/diffs/myDiff.py -s'
 alias mycheck "module add cppcheck ; cleartool lsco -all -me -short -cview | sort | uniq | xargs cppcheck --enable=style,performance,portability,information --std=posix --std=c99 -q"
-alias stb        'set_ttcn_build'
 alias sv         'source /home/eperpei/script/sv'
 alias wg         'wpct getinfo'
-alias ctsv       'setenv KATE_CTAGS_FILE /home/${USER}/work/tags/\!:1/mtas.tags && ct setview \!:1'
 alias ttcnsetup            'cd /vobs/ims_ttcn3/projects/TAS/imsas_ttcn; source setup'
 alias ctas 'cd `cleartool pwv -root`/vobs/tas'
 alias csrc 'cd `cleartool pwv -root`/vobs/tas/tas_code/imsas/src'
 alias cmfw 'cd `cleartool pwv -root`/vobs/tas/mtas_code/MediaFW/src/'
-alias cdesignsetup        'cd `cleartool pwv -root`/vobs/tas/tas_code/imsas/src; source setup'
+alias cdesignsetup        'pushd .; cd `cleartool pwv -root`/vobs/tas/tas_code/imsas/src; source setup; popd'
 alias ttcn 'cd /vobs/ims_ttcn3/projects/TAS/imsas_ttcn'
 alias ttcnbin 'cd /vobs/ims_ttcn3/common/bin'
 
@@ -53,47 +40,81 @@ alias ttcnbin 'cd /vobs/ims_ttcn3/common/bin'
 # Git aliases
 #
 alias cdgit 'cd /local/scratch/eperpei/mtas_new/mtas_design/'
+alias cdgit2 'cd /local/scratch/eperpei/mtas_new/mtas_design2/'
+alias gitroot 'cd `git rev-parse --show-toplevel`'
 alias tas 'cd `git rev-parse --show-toplevel`/tas'
 alias src 'cd `git rev-parse --show-toplevel`/tas/tas_code/imsas/src'
 alias mfw 'cd `git rev-parse --show-toplevel`/tas/mtas_code/MediaFW/src/'
-alias designsetup 'cd `git rev-parse --show-toplevel`/tas/tas_code/imsas/src; source setup_git.csh'
-alias cbadesignsetup 'cd `git rev-parse --show-toplevel`/tas/tas_code/imsas/src; source cba_env_setup_git.csh'
+alias designsetup 'pushd .; cd `git rev-parse --show-toplevel`/tas/tas_code/imsas/src; source setup_git.csh; popd'
+alias cbadesignsetup 'pushd .;cd `git rev-parse --show-toplevel`/tas/tas_code/imsas/src; source cba_env_setup_git.csh; popd'
+alias clonemtas 'git clone ssh://$USER@gerritmirror-ha.rnd.ki.sw.ericsson.se:29418/mtas/mtas.git mtas_design && scp -p -P 29418 $USER@gerrit.ericsson.se:hooks/commit-msg mtas_design/.git/hooks/ && cd mtas_design && git remote set-url origin --push ssh://$USER@gerrit.ericsson.se:29418/mtas/mtas.git'
+alias cloneft 'git clone ssh://$USER@gerritmirror-ha.rnd.ki.sw.ericsson.se:29418/mtas/ft ft && scp -p -P 29418 $USER@gerrit.ericsson.se:hooks/commit-msg ft/.git/hooks/ && cd ft && git remote set-url origin --push ssh://$USER@gerrit.ericsson.se:29418/mtas/ft'
+
+#
+# Unit test aliases
+#
+alias utt 'python ${HOME}/unittest/gitrepo/mtas_unit_test/unit_test.py'
+
+#
+# Build aliases
+#
+alias mtas_trace_package 'tmake package --tracelvl 60 --define METHOD_TRACE --directory $HOME/MTAS/builds'
+alias mtas_default_package 'tmake package --directory $HOME/MTAS/builds'
+
 
 #
 # Other aliases
 #
-alias n          'notify-send -t 0'
+alias cdl         'cd `ls -drt */ | tail -n 1`'
+alias cp          'cp -v'
+alias mv          'mv -v'
+alias swp         'mv \!:1 ___tmp && mv \!:2 \!:1 && mv ___tmp \!:2'
+alias n           'notify-send -t 0'
+alias mkcd        'mkdir \!:1 && cd \!:1'
 #alias vim        '/app/vim/7.3.021/LMWP3/bin/vim'
 alias vifm        'vifm .'
-alias vi         'vim'
-alias f          'find -iname'
-alias qtide     '~/qtide/qt-creator/qtide.sh'
-alias grep      'grep --color'
+alias ranger      '${HOME}/tools/ranger/ranger.py'
+alias vi          'vim'
+alias man         'vman'
+alias scratch     'cd /local/scratch/eperpei/'
+alias f           'find -iname'
+alias qtide       '~/qtide/qt-creator/qtide.sh'
+alias grep        'grep --color'
 alias errcolor    'grep --color -i "error:\|"'
-alias ls         'ls --color=auto -1'
-alias jx         '/home/ectasadm/opt/ldapbrowser/jxplorer/JXplorer &'
-alias myws       '~/local/bin/wireshark *cap &'
-alias appws      '/app/wireshark/1.8.6/LMWP3/bin/wireshark *cap &'
-alias lb         'logbrowser mtas.*.log mtc*.log &'
-alias ff         "firefox"
-alias sa         'screen -x'
-alias ta         'tmux attach -d'
-alias myepide    'epide -vmargs -Xms1024m -Xmx2048m -XX:MaxPermSize=1024m &'
+alias ls          'ls --color=auto -1'
+alias jx          '/home/ectasadm/opt/ldapbrowser/jxplorer/JXplorer &'
+alias myws        'wireshark *cap &'
+alias ut          '/home/ebarcsk/work/scripts/untar.sh'
+alias utws        '/home/ebarcsk/work/scripts/utws.sh'
+alias lut         'ut `ls -drt */ | tail -n 1`/TC* &'
+alias lws      'wireshark `ls -drt */ | tail -n 1`/TC* &'
+alias lb          'logbrowser mtas.*.log mtc*.log &'
+alias ff          "firefox"
+alias sa          'screen -x'
+alias ta          'tmux attach -d || tmux new -s session'
+alias myepide     'epide -vmargs -Xms1024m -Xmx2048m -XX:MaxPermSize=1024m &'
 alias pretigerbuild        'rm -rf /local/tmp/{$USER}/TADE* /local/tmp/{$USER}/unpacked_mtas_build/; ps -ef | grep ${USER} | grep vmware | grep Workstation | cut -f 3,4 -d " " | tr "\n" " " | xargs kill -9'
 alias callflow_grep        '/home/ebarcsk/work/scripts/trace/callflow_grep/callflow_grep.pl'
 alias find_first_failure   '/home/ebarcsk/work/scripts/trace/find_first_failure/find_first_failure'
 alias find_failing_tcs     '/home/ebarcsk/work/scripts/trace/find_failing_tcs/find_failing_tcs'
-alias ut '/home/ebarcsk/work/scripts/untar.sh'
-alias utws '/home/ebarcsk/work/scripts/utws.sh'
-alias mydush '/home/ebarcsk/work/scripts/mydush.sh'
-alias mytigershit 'rm -rf /home/{$USER}/.tiger /home/{$USER}/config'
-alias mylsv      '/home/ebarcsk/Barniel/MyBin/mylsview'
-alias plg '/home/ebarcsk/Barniel/MyBin/procloggrep'
-alias r 'echo "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"'
-alias loc 'locate -d locateDB'
-alias fc 'vim /local/tmp/command && chmod 777 /local/tmp/command && source /local/tmp/command && rm -f /local/tmp/command'
-alias ssh 'set term=xterm; /usr/bin/ssh'
-alias ftags "find -L . -name '*.ttcn' > ttcn_tags ; ctags --ttcn-kinds=+p --format=2 --extra=+q --extra=+f -L ttcn_tags"
+alias plg         '/home/ebarcsk/Barniel/MyBin/procloggrep'
+alias r           'repeat 30 echo "\n"'
+alias loc         'locate -d locateDB'
+alias fc          'vim /local/tmp/command && chmod 777 /local/tmp/command && source /local/tmp/command && rm -f /local/tmp/command'
+alias ssh         'set term=xterm; /usr/bin/ssh'
+#alias ftags "find -L . -name '*.ttcn' > ttcn_tags ; ctags --ttcn-kinds=+p --format=2 --extra=+q --extra=+f -L ttcn_tags"
+alias ftags "find -L . -name '*.ttcn' > ttcn_tags ; ctags --ttcn-kinds=+p --format=2 --extra=+q --extra=+f -L ttcn_tags ; cat tags | grep -v /bin/ > tags2 ; rm -rf tags; mv tags2 tags; rm -rf ttcn_tags"
+alias ftbuild 'cd $FT_WORK_DIR/.build && makefilegen -mDgft $FT_TESTOBJECTS_HOME/MTAS.tpd && cd $FT_WORK_DIR && makefilegen -fo /dev/null -DVgt $FTFW_SCRIPTS/FW_scripts.tpd && $FTFW_TOOLS/tiger/src/ttcnmake --dir $FT_WORK_DIR/.build'
+
+# Virtual machines
+alias maiastart         '/app/maia/R1F/bin/maia_start --do'
+alias maiastop          '/app/maia/R1F/bin/maia_stop --do'
+alias maiainstall       '/app/maia/R1F/bin/maia_install --do'
+alias maiauninstall     '/app/maia/R1F/bin/maia_uninstall --do'
+alias maiareinstall     'maiauninstall && maiainstall'
+alias vboxstart         '/app/VirtualBox/5.0.10/bin/vbox_start --do'
+alias vboxstop          '/app/VirtualBox/5.0.10/bin/vbox_stop --do'
+alias vboxuninstall          '/app/VirtualBox/5.0.10/bin/vbox_uninstall --do'
 
 bindkey "^R" i-search-back
 #bindkey -v
@@ -117,10 +138,6 @@ set   white="%{\033[0;37m%}"
 set     end="%{\033[0m%}" # This is needed at the end... :(
 set randomc="%{\033[0;`head -c 1 /dev/urandom | od -t u1 | cut -c9- | xargs -I'{}' expr {} % 7 + 31`m%}"
 set   ctest="%{\033[1;34m%}"
-
-# Setting the actual prompt.  I made two separate versions for you to try, pick
-# whichever one you like better, and change the colors as you want.  Just don't
-# mess with the ${end} guy in either line...  Comment out or delete the prompt you don't use.
 
 
 ##########
