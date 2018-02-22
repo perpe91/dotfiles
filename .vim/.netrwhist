@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/local/scratch/eperpei/mtas_new/mtas_2018/mtas_design/tas/mtas_code/MediaFW/src/MediaFW_SA/MediaResourceControl_SE/MfwCommon_BG/MfwOamHandler_SCC'
+let g:netrw_dirhist_2='/local/scratch/eperpei/mtas_new/mtas_2018/mtas_design/tas/mtas_code/MediaFW/src/MediaFW_SA/MediaResourceControl_SE/MfwCommon_BG/MfwOamHandler_SCC/src'
+let g:netrw_dirhist_3='/local/scratch/eperpei/mtas_new/mtas_2018/mtas_design/tas/mtas_code/MediaFW/src/MediaFW_SA/MediaResourceControl_SE/MfwCommon_BG'
+let g:netrw_dirhist_4='/local/scratch/eperpei/mtas_new/mtas_2018/mtas_design/tas/mtas_code/MediaFW/src/MediaFW_SA/MediaResourceControl_SE/MfwCommon_BG/MfwOamHandler_SWI'
+let g:netrw_dirhist_5='/local/scratch/eperpei/mtas_new/mtas_2018/mtas_design/tas/mtas_code/MediaFW/src/MediaFW_SA/MediaResourceControl_SE/MfwCommon_BG/MfwOamHandler_SWI/incl'

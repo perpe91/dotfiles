@@ -1,0 +1,145 @@
+
+execute pathogen#infect()
+"set packpath+=${HOME}/.vim/bundle
+
+if exists('$TMUX')
+   set term=screen-256color
+   if &term =~# '^screen'
+      let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+      let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+   endif
+endif
+set termguicolors
+"set t_Co=256
+""""" PLUGINS """""""""""""""""""""""""""""""""
+"filetype off
+filetype plugin on
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_guide_size = 1
+
+syntax on
+
+"" gruvbox theme
+set background=dark
+let g:gruvbox_invert_selection=0
+colorscheme gruvbox
+
+"" lucius theme
+"let g:lucius_style='light'
+"colorscheme lucius
+
+
+"hi DiffAdd ctermbg=none ctermfg=4
+
+"""""""""""""""""""" AIRLINE """"""""""""""""
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#fnametruncate = 0
+
+"let g:airline#extensions#tabline#left_sep = ''
+"let g:airline#extensions#tabline#left_alt_sep = ''
+"let g:airline#extensions#tabline#right_sep = ''
+"let g:airline#extensions#tabline#right_alt_sep = ''
+
+let g:airline_section_b = ''
+"let g:airline_section_c = '[ VIM Editor ] - %t'
+let g:airline_section_c = '  %t '
+let g:airline_section_y = '%r%m  %c'
+let g:airline_section_z = '%3p%% '
+"let g:airline_section_z = '%4l%'
+"let g:airline_theme="jellybeans"
+let g:airline_theme="lucius"
+if has("nvim")
+   let g:airline_theme="solarized"
+   let g:airline_section_c = '[ NeoVim Editor ]'
+   "" solarized theme
+   set background=dark
+   let g:solarized_termcolors=256
+   let g:solarized_contrast="high"
+   let g:solarized_termtrans=0
+   colorscheme solarized
+endif
+let g:airline_powerline_fonts=0
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_inactive_collapse=0
+let g:airline_detect_modified=1
+let g:airline#extensions#quickfix#quickfix_text = ''
+let g:airline#extensions#quickfix#location_text = ''
+
+"""""""""""""""""""""""""""""""" STATUS LINE SETUP END """""
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+    \   'guifgs': ['darkorange1', 'seagreen2', '#44AAFF', 'darkorange3'],
+    \   'ctermfgs': ['none', '1', '3', 'lightmagenta'],
+    \   'operators': '_,_',
+    \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+    \   'separately': {
+    \       '*': {},
+    \       'cpp': {
+    \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+    \       },
+    \   }
+    \}
+set updatetime=500
+"au CursorMoved * exe printf('match Conceal /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+"au CursorMoved * exe printf('match WildMenu /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+"au CursorMoved * exe printf('match CursorLineNr /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(o|xml|a)$'
+let g:ctrlp_by_filename = 1
+"let g:ctrlp_user_command = 'find %s -type f'
+
+
+" SYNTAX MATCHES """""""""""""""""""""""""""""""""""""""""""""
+"au BufWinEnter * syntax match Type /\vDicos\w*/
+
+" BUFFERGATOR """"""""""""""""""""""""""""""""""""""""""""""""
+"let g:buffergator_autodismiss_on_select = 1
+"let g:buffergator_autoupdate = 1
+"let g:buffergator_sort_regime = "bufnum"
+"let g:buffergator_show_full_directory_path = 0
+"hi link BuffergatorCurrentEntry TabLineSel
+
+" BUFEXPLORER """"""""""""""""""""""""""""""""""""""""""""""""
+"let g:bufExplorerShowDirectories=0   " Do not show directories.
+"let g:bufExplorerSplitRight=0
+"let g:bufExplorerVertSize=20          " New split windows size set by Vim.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"let g:gitgutter_eager=0
+
+augroup filetypedetect
+    au BufNewFile,BufRead *.ttcn  setf ttcn | set tabstop=2 | set shiftwidth=2
+    au BufNewFile,BufRead *.cc,*.hh,*.c,*.h  setf cpp | set tabstop=3 | set shiftwidth=3
+augroup END
+
+if &diff
+   set background=light
+   colorscheme lucius
+   "colorscheme monokai
+endif
+
+"au BufNewFile,BufRead,BufEnter *.cpp,*.cc,*.hh,*.hpp set omnifunc=omni#cpp#complete#Main
+" OmniCppComplete
+"let OmniCpp_NamespaceSearch = 1
+"let OmniCpp_GlobalScopeSearch = 1
+"let OmniCpp_ShowAccess = 1
+"let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
+"let OmniCpp_MayCompleteDot = 1 " autocomplete after .
+"let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
+"let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
+""let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+"" automatically open and close the popup menu / preview window
+"au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+"set completeopt=menuone,menu,longest,preview
+let g:neomake_cpp_tmake_maker = {
+    \ 'exe': 'tmake',
+    \ 'args': ['build SA/MediaFW'],
+    \ 'errorformat': '%f:%l:%c: error: %m,%f:%l: error: %m',
+    \ }
+let g:neomake_cpp_enabled_makers = ['tmake']
+let g:Gitv_OpenHorizontal = 1

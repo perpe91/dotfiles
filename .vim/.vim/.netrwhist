@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/home/eperpei/.vim/bundle/ctrlp.vim/autoload/ctrlp'
+let g:netrw_dirhist_2='/home/eperpei/.vim'
+let g:netrw_dirhist_3='/vobs/tas/mtas_code/MediaFW/src/MediaFW_SA/MediaResourceControl_SE/MfwPlatform_BG/MfwDatabase_BG/MrfcDatabase_SWI/user'
+let g:netrw_dirhist_4='/vobs/tas/mtas_code/MediaFW/src/MediaFW_SA/MediaResourceControl_SE/MfwPlatform_BG/MfwDatabase_BG/MrfcDatabase_SWI/user/incl'
+let g:netrw_dirhist_5='/vobs/tas/mtas_code/MediaFW/src'
+let g:netrw_dirhist_6='/local/scratch/views/eperpei_esekiws5282_drop3/vobs/tas/mtas_code/MediaFW/src/MediaFW_SA/MediaResourceControl_SE/MfwPlatform_BG/H248_BG/H248Transport_OB/Test/MrfcTransportCT_OU/src'
